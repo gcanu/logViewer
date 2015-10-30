@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="logViewer">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Log Viewer</title>
+
+		<link rel="stylesheet" type="text/css" href="log.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="lib/angular_material/0.11.4/angular-material.css">
+		
+		<script src="lib/jquery-2.1.4.js"></script>
+	</head>
+	<body ng-controller="logController">
+		<div layout="row" layout-fill md-theme="{{theme}}">			
+			<md-sidenav md-component-id="left" class="md-sidenav-left md-whiteframe-16dp">
+				<md-subheader class="md-accent">Log à afficher</md-subheader>
+				<md-button ng-repeat="(index, log) in logsDescription" ng-click="changeLog(index)" class="md-primary md-whiteframe-1dp">
+					<md-icon md-font-set="material-icons">receipt</md-icon>
+					{{log.title}}
+				</md-button>
+				
+				<md-subheader class="md-accent">Options</md-subheader>
+				<md-subheader class="md-accent h2">Délai de rafraîchissement</md-subheader>
+				<div layout>
+					<div flex="15" layout layout-align="center center">
+						<md-icon md-font-set="material-icons">restore</md-icon>
+					</div>
+					<md-slider flex min="2" max="10" ng-model="refreshRate" aria-label="refresh rate" id="refresh-slider"></md-slider>
+					<div flex="15" layout layout-align="center center">
+						<span class="md-body-1">{{refreshRate}} s</span>
+					</div>
+				</div>
+				
+				<md-subheader class="md-accent h2">Configuration</md-subheader>
+				<div ng-form="logconfigform">
+					<textarea ng-model="logConfiguration" name="config" logconfig>{{logConfiguration}}</textarea>
+					<md-button class="md-primary md-whiteframe-1dp" ng-click="validConfig()" ng-disabled="logconfigform.config.$error.configuration">Valider configuration</md-button>
+				</div>
+				
+				<md-subheader class="md-accent h2">Thème</md-subheader>
+				<md-input-container style="margin-right: 10px;">
+					<md-select ng-model="theme">
+						<md-option ng-repeat="t in themes" value="{{t}}">{{t}}</md-option>
+					</md-select>
+				</md-input-container>
+				
+				<md-subheader class="md-accent">Crédit</md-subheader>
+				<div class="credit">
+					Fabriqué avec amour par Guillaume Canu !
+				</div>
+				
+			</md-sidenav>
+			<div layout="column" layout-fill>
+				<md-toolbar class="log-wrap md-tall md-whiteframe-4dp" layout="row">
+					<div class="md-toolbar-tools">
+						<md-button class="md-icon-button" aria-label="menu">
+							<md-icon md-font-set="material-icons" ng-click="showLeftMenu()">menu</md-icon>
+						</md-button>
+						<h3>LOG VIEWER</h3>
+						<span class="flex"></span>
+						<md-switch ng-model="lockEnabled" ng-aria-label="lock">
+							<md-icon md-font-set="material-icons">lock</md-icon>
+							<md-tooltip>
+								Arrêter le défilement
+							</md-tooltip>
+						</md-switch>
+					</div>
+					<div class="md-toolbar-tools">
+						<h5 class="md-toolbar-tools md-toolbar-tools-bottom">{{logDescription.description}}</h5>
+						<span class="flex"></span>
+						<md-progress-circular class="timer" md-mode="determinate" value="{{progress}}" md-diameter="24"></md-progress-circular>
+					</div>
+				</md-toolbar>
+				<md-content class="log-container" layout-row>
+					<div id="logs" scroll-checker layout-padding>
+						<div ng-bind-html="htmlLogs"></div>
+					</div>
+				</md-content>
+			</div>
+		</div>
+
+		<!-- Angular Material Dependencies -->
+		<script src="lib/angular/1.4.7/angular.js"></script>
+		<script src="lib/angular/1.4.7/angular-animate.js"></script>
+		<script src="lib/angular/1.4.7/angular-aria.js"></script>
+
+		<!-- Angular Material Javascript using GitCDN to load directly from `bower-material/master` -->
+		<script src="lib/angular_material/0.11.4/angular-material.js"></script>
+		
+		<script src="logMock.js"></script>
+		<script src="log.js"></script>
+
+	</body>
+</html>

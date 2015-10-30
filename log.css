@@ -1,0 +1,54 @@
+body {
+	overflow: hidden;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.to-bottom {
+    position: fixed;
+    bottom: 0;
+    right: 17px;
+    padding: 5px 20px;
+    background-color: #f69c55;
+    color: white;
+	cursor: pointer;
+}
+
+#logs {
+	font: 13px monospace;
+}
+
+.switch{
+	display: inline-block;
+}
+
+.md-accent.h2 {
+	font-size: 13px;
+    margin-left: 16px;
+}
+
+.log-wrap {
+	flex-wrap: wrap;
+}
+
+md-progress-circular.timer .md-inner .md-right .md-half-circle ,
+md-progress-circular.timer .md-inner .md-left .md-half-circle
+{
+	border-color: white;
+}
+
+.credit {
+	text-align: center;
+	font-size: 13px;
+	color: #666666;
+	margin-left: 16px;
+}
+
+textarea {
+	width: 95%;
+	height: 7em;
+}
+
+textarea.ng-invalid {
+	background-color: #FFCCCC;
+}
