@@ -39,10 +39,8 @@ angular.module('logViewer', ['ngMaterial'])
 			{ title: 'ABC', description: 'log serveur ABC', url: null }
 		];
 		
-		$scope.logConfiguration = angular.toJson($scope.logsDescription);
 		$scope.currentLog = 0;
 		$scope.logDescription = $scope.logsDescription[$scope.currentLog]; // default log
-		
 		
 		// themes
 		$scope.themes = [ 'ocean', 'sunset', 'nature' ];
@@ -110,11 +108,6 @@ angular.module('logViewer', ['ngMaterial'])
 		$scope.showLeftMenu = function() {
 			$mdSidenav('left').toggle();
 		};
-		
-		$scope.validConfig = function() {
-			$scope.logsDescription = angular.fromJson($scope.logConfiguration);
-			updateLog();
-		};
 	})
 	
 	.directive('scrollChecker', function($interval) {
@@ -174,14 +167,26 @@ angular.module('logViewer', ['ngMaterial'])
 		};
 		
 		function link(scope, element, attrs, ctrl) {
+			ctrl.$parsers.push(function(value) {
+				debugger;
+				return angular.fromJson(value);
+			});
+			
+			ctrl.$formatters.push(function(value) {
+				debugger;
+				return angular.toJson(value);
+			});
+			
 			ctrl.$validators.configuration = function(modelValue, viewValue) {
 				try {
-					angular.fromJson(viewValue);
+					scope.logsDescription = angular.fromJson(viewValue);
 				}
 				catch(e) {
+					debugger;
 					return false;
 				}
 				
+				debugger;
 				return true;
 			};
 		}
