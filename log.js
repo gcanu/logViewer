@@ -105,6 +105,10 @@ angular.module('logViewer', ['ngMaterial'])
 			$scope.interval = $interval(fnGetLogs, $scope.refreshRate * 1000);
 		});
 		
+		$scope.$watch('logsDescription', function(value) {
+			updateLog();
+		});
+		
 		$scope.showLeftMenu = function() {
 			$mdSidenav('left').toggle();
 		};
@@ -168,27 +172,16 @@ angular.module('logViewer', ['ngMaterial'])
 		
 		function link(scope, element, attrs, ctrl) {
 			ctrl.$parsers.push(function(value) {
-				debugger;
-				return angular.fromJson(value);
+				try {
+					return angular.fromJson(value);
+				} catch(e) {
+					return undefined;
+				}
 			});
 			
 			ctrl.$formatters.push(function(value) {
-				debugger;
 				return angular.toJson(value);
 			});
-			
-			ctrl.$validators.configuration = function(modelValue, viewValue) {
-				try {
-					scope.logsDescription = angular.fromJson(viewValue);
-				}
-				catch(e) {
-					debugger;
-					return false;
-				}
-				
-				debugger;
-				return true;
-			};
 		}
 	})
 ;
